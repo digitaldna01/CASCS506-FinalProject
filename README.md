@@ -1,9 +1,9 @@
 # CASCS506-FinalProject
 
-# Comparing the performance of the Neural Network model to the XGBoost and SVM models to determine the best model for identifying cancer markers in genetic material
+# Finding best model for identifying cancer markers in genetic material
 
 ## 1 Problem/Description of the Project
-As computer science students in Boston, we recognize that current data tools are highly effective in the biomedical field, particularly in identifying genomic patterns and mutation frequencies in DNA, allowing for greater scientific advancement. DNA and cancer datasets are closely related, presenting a genomic representation of the potential risk of cancer, and we hope to better understand how to predict the possibility of cancer beforehand by observing how different models perform against the same data. Our primary focus for this project will be to implement a neural network from scratch. Once we have successfully created this model, we plan to compare its performance against SVM and XGBoost models. By comparing the performance of various models, we can then draw a conclusion regarding which model is most appropriate for further cancer research in identifying cancer markers in DNA
+As computer science students in Boston, we recognize that current data tools are highly effective in the biomedical field, particularly in identifying genomic patterns and mutation frequencies in DNA, allowing for greater scientific advancement. DNA and cancer datasets are closely related, presenting a genomic representation of the potential risk of cancer, and we hope to better understand how to predict the possibility of cancer beforehand by observing how different models perform against the same data. Our primary focus for this project will be to determine a model that is able to most accurately and efficiently identify these markers within the genetic material. We plan on comparing the performance of SVM, XGBoost, and regression models. Additionally, we plan to compress the data using SVD and Latent Semantic Analysis, seeing which will allow for more accurate and efficient processing. By comparing the performance of various models, we can then draw a conclusion regarding which model is most appropriate for further cancer research in identifying cancer markers in DNA.
 
 ## 2 Our Goal
 While our initial goal is to develop the neural network independently, we will assess our available time to determine if we can also implement the SVM and XGBoost model from scratch. If time constraints arise, we can utilize libraries like Scikit-learn to implement the SVM and XGBoost models instead. After preparing our models, we will train them using cancer genome data and evaluate their accuracy, exploring which model performs best and analyzing the reasons behind their effectiveness implications for future cancer identification.
@@ -12,16 +12,7 @@ While our initial goal is to develop the neural network independently, we will a
 ## 3 Methods - How we plan to model our data
 As mentioned previously, our objective is to create a neural network, then compare the performance of our neural network against the performance of SVM and XGboost models.
 
-### 3.1 Neural Network (NN)
-Neural Networks (NN) are a class of models inspired by the human brain's structure and function, designed to recognize patterns and make predictions based on input data. A typical neural network consists of layers of interconnected nodes, or neurons, where each connection has an associated weight. First, there is the input layer, which receives the data, then there are one or more hidden layers that perform calculations, and finally there is the output layer.
-
-As illustrated in Figure 1 below, each neuron in a layer applies a linear transformation to its input and then passes the result through a non-linear activation function (such as ReLU or sigmoid) to introduce non-linearity into the model. This allows neural networks to learn complex patterns and relationships from the data.
-
-![Neural Network](image/figure1.png)
-
-In the training process, connections' weights are adjusted using a method called backpropagation to minimize the differences between predicted and actual outputs. This is typically done using an optimization algorithm like stochastic gradient descent.
-
-### 3.2 Support Vector Machine (SVM)
+### 3.1 Support Vector Machine (SVM)
 Support Vector Machine (SVM) is a model that finds the most efficient hyperplane or decision
 boundary to classify categories of each class. The SVM sets the boundary of the classification
 decision. SVM sets this boundary based on support vectors, which are observations found at the
@@ -31,13 +22,22 @@ The distance between the boundary and the position of the support vectors locate
 edges is referred to as the margin. An SVM that tolerates errors within the margin is called a soft
 margin SVM, while an SVM that does not tolerate errors is called a hard margin SVM.
 
-### 3.3 XBGoost 
+### 3.2 XBGoost 
 XGBoost (Extreme Gradient Boosting) is an efficient and powerful machine learning algorithm that enhances traditional gradient boosting methods. It builds an ensemble of decision trees, where each tree is trained to correct the errors of the previous ones, leading to improved predictive accuracy. XGBoost incorporates regularization techniques, such as L1 and L2 regularization, to reduce overfitting and improve model robustness. We will need to look into it more to study the whole algorithm.
 
-### 3.4 Our Method
-Once we implement the neural network from scratch, we can then train our model on the data. After training the model, we will run it on the test DNA sequence data. At this stage, we will compare the efficiency of all three models: the neural network, SVM, and XGBoost.
+### 3.3 Regression Model
+A regression model predicts a continuous outcome based on input variables. In our approach, we will explore linear and non-linear regression techniques, seeing what fits best with the data that we have collected. We'll explore linear regression as well as more complex forms of regression, such as polynomial regression, to capture non-linear relationships. This allows the model to fit a wider variety of data patterns, which may be more representative of real-world applications.
 
-The main goals of our project are to 1) study the structure of the neural network, 2) determine which of the three models is more suitable for classifying DNA images, and 3) analyze the reasons behind the model's performance and improvements. To achieve these objectives, we will thoroughly investigate all three models, train them on our datasets, and evaluate the results. This comprehensive approach will help us draw meaningful conclusions about the effectiveness of each model in the context of our research.
+### 3.4 Singular Vector Decomposition
+Singular Value Decomposition (SVD) is a matrix factorization technique commonly used in data reduction, noise filtering, and recommendation systems. In the context of our model, SVD will be used to reduce the dimensionality of our data while preserving key patterns and relationships. This can enhance model performance by reducing overfitting and computational complexity. By keeping only the top singular values, we can focus on the most significant patterns, allowing the model to generalize better to unseen data.
+
+### 3.5 Latent Semantic Analysis 
+Latent Semantic Analysis (LSA) is a natural language processing technique that uses SVD to identify patterns in relationships between terms and documents. It transforms the text data into a lower-dimensional space, capturing the underlying structure in the data. In LSA, documents and words are represented in a latent space, where similar words and documents have similar representations. This helps in reducing the noise in text data while focusing on the core concepts. In our application, we will use LSA to extract relationships between the cancer type and the genes on which markers are present. 
+
+### 3.6 Our Method
+The main goal of our project is to 1) determine which model data compression is most suitable for classifying DNA cancer markers and 2) analyze the reasons behind the model's performance and improvements. To achieve these objectives, we will thoroughly investigate each of the models paired with the different data compression techniques. We will first compress the data using the different techniques, train the models on our datasets, and evaluate the results. This approach will allow us to draw meaningful conclusions about the effectivenes of each model in the context of our research. 
+
+In terms of the models themselves, we plan to use packages for each of the models (SVM, XGBoost, Regression models) as well as a package for SVD. However, we plan to implement our own LSA in order to fit it better to the data that we are looking at. 
 
 ## 4 Methods - How we plan to visualize our data
 To begin, we need to identify the type of regression analysis that is most appropriate for our project. If we were working with only two variables—let's say an attribute of the DNA data (x) and a corresponding classification outcome (y)—we could plot the training data on separate graphs to observe the relationship between each attribute and the classification. However, this approach would not account for the interactions among multiple attributes simultaneously, and isolating them could lead to distorted conclusions.
@@ -49,11 +49,11 @@ Alternatively, we could explore data compression techniques to make our DNA and 
 Initially, it may be beneficial to remove less relevant or impactful attributes from the datasets, such as those that do not significantly contribute to classification. Additionally, we might consider reducing the dimensionality of the data to align it with the test datasets we will analyze later. To achieve this, we will experiment with various compression model, including to kernel method determine the most effective approach for our project.
 
 ## 5 Dataset and test plan
-The data set that we plan on using will be from cBioPortal for Cancer Genomics, a resource that provides publicly available datasets containing useful samples. The link to our specific dataset is [here](https://www.cbioportal.org/study/clinicalData?id=aml_ohsu_2022), which is a dataset of myeloid leukemia samples. For each sample, there is important information that we can use to train our model, such as the number of genetic mutations, what the mutation is, the number of samples, and other factors that can dictate the devlopment of cancer. Additionally, among the sampels are matched normal samples, which are samples of tissue from the same subject that are healthy. We can utilize this data as [art of our training in identifying healthy genetic markers from those that could be cancerous. To actually obtain and collect the data from our dataset website, we can download the data as a TSV, then either extract specific columns (using tools liek pandas/numpy/sklearn), such as age at diagnosis, sex, mutation frequency, or leave all the columns, and use this data for our models.
+The data set that we plan on using will be from cBioPortal for Cancer Genomics, a resource that provides publicly available datasets containing useful samples. The link to our specific dataset is [here](https://www.cbioportal.org/study/clinicalData?id=aml_ohsu_2022), which is a dataset of myeloid leukemia samples. For each sample, there is important information that we can use to train our model, such as the number of genetic mutations, what the mutation is, the number of samples, and other factors that can dictate the devlopment of cancer. Additionally, among the sampels are matched normal samples, which are samples of tissue from the same subject that are healthy. We can utilize this data as [art of our training in identifying healthy genetic markers from those that could be cancerous. To actually obtain and collect the data from our dataset website, we can download the data as a TSV, then either extract specific columns (using tools liek pandas/numpy/sklearn), such as age at diagnosis, sex, mutation frequency, or leave all the columns, and use this data for our models. We then plan on compressing this data using SVD and LSA, which we can then run multiple trials of with each of the models. 
 
-Once we implement the neural network from scratch, we can then train our model on the data. After training the model, we will run it on the test DNA sequence data. At this stage, we will compare the efficiency of all three models: the neural network, SVM, and XGBoost. From our data, we will focus on one cancer type, which is myeloid leukemia, as there are over 900 samples (see the provided link for the specific sample). We will withhold 20% of this data for testing, then use the remaining data to train our models. Since we ae able to access the data, we can control what information and how we train our test our models, in order to ensure best practices.
+We can then train our models on the data. After training the model, we will run it on the test DNA sequence data. At this stage, we will compare the efficiency of all three models: the SVM, XGBoost, and regression models. From our data, we will focus on one cancer type, which is myeloid leukemia, as there are over 900 samples (see the provided link for the specific sample). We will withhold 20% of this data for testing, then use the remaining data to train our models. Since we ae able to access the data, we can control what information and how we train our test our models, in order to ensure best practices.
 
-The main goals of our project are to 1) study the structure of the neural network, 2) determine which of the three models is more suitable for classifying DNA images, and 3) analyze the reasons behind the model's performance and improvements. To achieve these objectives, we will thoroughly investigate all three models, train them on our datasets, and evaluate the results. This comprehensive approach will help us draw meaningful conclusions about the effectiveness of each model in the context of our research.
+The main goals of our project are to 1) determine which of the three models is more suitable for classifying cancerous DNA markers, and 2) analyze the reasons behind the model's performance and improvements. To achieve these objectives, we will thoroughly investigate all three models, train them on our datasets, and evaluate the results. This comprehensive approach will help us draw meaningful conclusions about the effectiveness of each model in the context of our research.
 
 <!-- We’re looking to use at least 3 datasets. The first dataset that we’re going to use to train our model
 comes from Kaggle. There are 1460 rows of training data and 2919 rows of testing data in this dataset.
@@ -75,9 +75,7 @@ differences between predicted and actual house prices in Paris and Chicago. Addi
 analyze how house prices of similar specifications vary depending on location. -->
 
 ## 6 Work of Each
-In order to divide work we were planning on investigating different methods. The basis of our project
-at this point is Neural Network, so we would likely explore that together. However, we would explore other
-possible tools such as SVM or XGBoost.
+In order to divide work we were planning on investigating different methods. We will collect the data together and work together to decide how we should compress it. However, we plan to each explore one of the possible tools such as SVM, XGBoost, and regressional models.
 
 <!--
 ## Proposal (Due 10/1)
