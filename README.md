@@ -20,7 +20,17 @@ outermost edges of each class.
 
 The distance between the boundary and the position of the support vectors located at the outermost
 edges is referred to as the margin. An SVM that tolerates errors within the margin is called a soft
-margin SVM, while an SVM that does not tolerate errors is called a hard margin SVM.
+The midterm report and 5-minute presentation should include the following.
+
+Preliminary visualizations of data.
+Detailed description of data processing done so far.
+Detailed description of data modeling methods used so far.
+Preliminary results. (e.g. we fit a linear model to the data and we achieve promising results, or we did some clustering and we notice a clear pattern in the data)
+We expect to see preliminary code in your project repo at this point.
+
+Your report should be submitted as README.md in your project GitHub repo.
+
+The 5-minute presentation should be a recording uploaded to YouTube. Please add the video link to the beginning of your report.margin SVM, while an SVM that does not tolerate errors is called a hard margin SVM.
 
 ### 3.2 XBGoost 
 XGBoost (Extreme Gradient Boosting) is an efficient and powerful machine learning algorithm that enhances traditional gradient boosting methods. It builds an ensemble of decision trees, where each tree is trained to correct the errors of the previous ones, leading to improved predictive accuracy. XGBoost incorporates regularization techniques, such as L1 and L2 regularization, to reduce overfitting and improve model robustness. We will need to look into it more to study the whole algorithm.
