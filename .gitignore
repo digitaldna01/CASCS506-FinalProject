@@ -95,8 +95,6 @@ Desktop.ini
 venv/
 
 # Ignore data files
-*.csv
-*.tsv
 *.dat
 *.json
 *.parquet
