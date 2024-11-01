@@ -1,0 +1,120 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+.env
+.venv
+build/
+dist/
+*.egg-info/
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff
+*.log
+
+# Flask stuff
+instance/
+.webassets-cache
+
+# Scrapy stuff
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pyre type checker
+.pyre/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# macOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+ntuser.dat
+Desktop.ini
+
+# System file
+*.swp
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Ignore virtual environment
+venv/
+
+# Ignore data files
+*.csv
+*.tsv
+*.dat
+*.json
+*.parquet
+
+# Ignore config files
+config.json
+*.yaml
+*.yml
+
+# Ignore cached models
+*.h5
+*.pkl
+
+# Ignore compiled code
+*.o
+*.so
+
+# Ignore data tools specific files
+output/
+results/
+*.db
