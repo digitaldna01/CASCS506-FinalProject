@@ -1,5 +1,5 @@
-# CASCS506-FinalProject
-
+# CASCS506-FinalProject Midterm Report
+### Video Link: https://youtu.be/xuDXcFzg1y0 
 ## Dataset 
 ### cBioPortal Dataset
 
