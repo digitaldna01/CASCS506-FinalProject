@@ -25,6 +25,21 @@ This feature computes the ratio of the worst area (area_worst) to the worst peri
 ##### 5. Variation between the Worst and Mean Values
 For each specified feature, this step calculates the difference between the worst value and the mean value, creating a feature that represents variation. This indicates how much the tumor characteristics vary. This step uses LabelEncoder to convert the categorical feature 'diagnosis' into numerical values. Machine learning models need this preprocessing step to handle categorical data.
 
+#### Model Creation
+As the first step in our model creation, we split our data into the nexessary X_train, X_test, Y_train, and Y_test using train_test_split() from sklearn, which allows us to preserve the splits of data that we initially stated in our proposal. Then, we used these sets to create our XGBoost and SVC models.
+
+##### 1. XGBoost
+The first model we created was XGBoost, using sklearn. We wanted to utilize XGBoost as one of our models due to its power and efficiency when it comes ot classification tasks. Additionally, we utilized the acuracy score and confusion matrix functions from sklearn to evaluate how well XGBoost ws classifying the data. With this model, we got an accurayc of around 0.96, also reflected in the confusion matrix, which indicated that XGBoost would be a good model for us to implement in our from-scratch portion.
+
+##### 2. SVC
+The next model we creater was SVC, using SVM from sklearn. We knew that SVM was a powerful model from class, and that SVC would be the best variations as our task in this poroject is a classification task rather than regression. For this, we also utilized sklearn's accuracy score and confusion matrix functions to evalutae accuracy. For SVC, we ot an accuracy of around 0.97, indicating that SVC was even more accuracte than XGBoost, and also a worthwhile model to implment.
+
+#### Next Steps
+As detailed in our original proposal, we will now be implementing these models from scratch. In the case of any time constraints, we will focus on one moddel to implement from scratch, but we are eager to do both XGBoost and SVC. We have many motivations for creating these models from scratch. Firstly, implementing these models from scratch will provide us with a deeper understanding of the algorithms and code behind the models. Then, we will be able to compare the sklearn implementations to our own, to allow us to see what sorts of optimizations sklearn makes and how we can try to incorporate those into our own models. Furthermore, we might even be able to find optimizations in other aspects of the models that sklearn does not do. By creating our models from scratch, we can find opportunities to tailor the models to work better with our data specifically, such as having deeper hyperparameter tuning. Building on the customization, we can adjust the actual algorithms, likw how the decision trees in XGBoost are split, creating custom loss functions, and changing how our models handle imbalanced data. Implementing the models from scratch may also allow us to identify sources of overfitting or underfitting, so that we can try to adjust oour model to prevent this. 
+
+
+### previous initial proposal below
+
 # Finding best model for identifying cancer markers in genetic material
 
 ## 1 Problem/Description of the Project
