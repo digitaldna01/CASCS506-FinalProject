@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Search</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body> 
+    <h1>heyyyyyy</h1>
+    <h2>plot features</h2>
+    <form id="features">
+        <label for="f1" name="f1" required>feature 1:</label>
+        <select name="feature1" id="feature1" required>
+            {% for feature in features %}
+            <option value="{{ feature }}">{{ feature }}</option>
+            {% endfor %}
+        </select>
+        <label for="f2" name="f2" required>feature 2:</label>
+        <select name="feature2" id="feature2" required>
+            {% for feature in features %}
+            <option value="{{ feature }}">{{ feature }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Generate Plot</button>
+    </form>
+    <div id="results"></div>
+<script src="/static/script.js"></script>
+</body>
+</html>
