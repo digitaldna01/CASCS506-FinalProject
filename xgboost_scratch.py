@@ -156,10 +156,10 @@ if __name__ == "__main__":
     X = np.array([[1], [2], [3], [4], [5]])
     y = np.array([1.2, 2.3, 3.1, 3.9, 5.1])
 
-    # 모델 초기화 및 학습
+    # Model reset and train
     model = XGBoostFromScratch(n_estimators=10, learning_rate=0.1, max_depth=2)
     model.fit(X, y)
 
-    # 예측
+    # Prediction
     predictions = model.predict(X)
     print("Predictions:", predictions)

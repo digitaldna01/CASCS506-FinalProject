@@ -3,7 +3,7 @@ import numpy as np
 class SVM:
     def __init__(self, learning_rate=0.001, C=1.0, n_iters=1000):
         self.lr = learning_rate
-        self.C = C  # 규제 parameters
+        self.C = C  # C parameters
         self.n_iters = n_iters
         self.w = None  # weights Initiate Weights to zero
         self.b = 0     # bias Initiate bias to 0
@@ -27,11 +27,6 @@ class SVM:
                     # 힌지 손실 포함
                     self.w -= self.lr * (2 * self.w - self.C *  np.dot(x_i, y_[idx]))
                     self.b -= self.lr * self.C * y_[idx]
-            
-            # current_loss = self._compute_loss(X, y_)
-            # if abs(prev_loss - current_loss) < 1e-5:  # 변화가 작으면 중단
-            #     break
-            # prev_loss = current_loss
         
         
 
@@ -47,7 +42,7 @@ class SVM:
 if __name__ == "__main__":
     # generate data (XOR 문제)
     X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]])
-    y = np.array([1, 1, 1, -1, -1])  # 클래스 라벨
+    y = np.array([1, 1, 1, -1, -1])  # Class Label
 
     # Train SVM model
     model = SVM(learning_rate=0.001, lambda_param=0.01, n_iters=1000)
