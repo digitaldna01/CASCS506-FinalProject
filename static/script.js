@@ -159,6 +159,7 @@ document.getElementById('add').addEventListener('submit', function (event) {
         "smoothness_mean": parseFloat(document.getElementById('smooth_mean').value),
         "compactness_mean": parseFloat(document.getElementById('comp_mean').value),
         "concavity_mean": parseFloat(document.getElementById('conc_mean').value),
+        "concave points_mean": parseFloat(document.getElementById('concave points_mean').value),
         "symmetry_mean": parseFloat(document.getElementById('sym_mean').value),
         "fractal_dimension_mean": parseFloat(document.getElementById('frac_dim_mean').value),
 
@@ -169,6 +170,7 @@ document.getElementById('add').addEventListener('submit', function (event) {
         "smoothness_se": parseFloat(document.getElementById('smooth_se').value),
         "compactness_se": parseFloat(document.getElementById('comp_se').value),
         "concavity_se": parseFloat(document.getElementById('conc_se').value),
+        "concave points_se": parseFloat(document.getElementById('concave points_se').value),
         "symmetry_se": parseFloat(document.getElementById('sym_se').value),
         "fractal_dimension_se": parseFloat(document.getElementById('frac_dim_se').value),
 
@@ -179,6 +181,7 @@ document.getElementById('add').addEventListener('submit', function (event) {
         "smoothness_worst": parseFloat(document.getElementById('smooth_worst').value),
         "compactness_worst": parseFloat(document.getElementById('comp_worst').value),
         "concavity_worst": parseFloat(document.getElementById('conc_worst').value),
+        "concave points_worst": parseFloat(document.getElementById('concave points_worst').value),
         "symmetry_worst": parseFloat(document.getElementById('sym_worst').value),
         "fractal_dimension_worst": parseFloat(document.getElementById('frac_dim_worst').value)
     };
@@ -205,9 +208,52 @@ document.getElementById('add').addEventListener('submit', function (event) {
             // Create a URL for the image Blob and display it in an <img> tag
             const imgURL = URL.createObjectURL(blob);
             resultsDiv.innerHTML = `<img src="${imgURL}" alt="Generated Plot">`;
+
+            document.getElementById('predict-button').style.display = 'block';
+            document.getElementById('models-select').style.display = 'block';
         })
         .catch(error => {
             console.error(error);
             alert('An error occurred while adding the data.');
         });
 });
+
+document.getElementById('predict-button').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    let model = document.getElementById('models-select').value;
+
+    const formData = new FormData();
+    formData.append("model", model);
+
+    console.log(formData);
+
+    fetch('/predict_user', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to generate plot');
+            }
+        })
+        .then(data => {
+            // Create a tag that displays the content of the response
+            const predictionText = `Prediction: ${data.prediction}`;
+
+            // Create a new <p> element
+            const pElement = document.createElement('p');
+            pElement.textContent = predictionText;
+
+            // Append the new <p> element to the resultsDiv
+            const resultsDiv = document.getElementById('predict');
+            resultsDiv.appendChild(pElement);  // Add the new element
+        })
+        .catch(error => {
+            console.error(error);
+            resultsDiv.innerHTML = 'An error occurred while generating the plot.';
+        });
+
+}); 

@@ -1,3 +1,4 @@
+import numpy as np
 from models.svm import SVM
 from models.xgboost_scratch import XGBoostFromScratch
 from xgboost import XGBClassifier
@@ -8,9 +9,8 @@ def preprocess(df):
   # normalization and standardization of numeric features
   numeric_df = df.select_dtypes(include=['number'])
   numeric_columns = numeric_df.columns 
-  scaler = StandardScaler()
-  df[numeric_columns] = scaler.fit_transform(df[numeric_columns])
-
+  # scaler = StandardScaler()
+  # df[numeric_columns] = scaler.fit_transform(df[numeric_columns])
 
   # Feature Engineering Code
   df['area_to_radius_ratio'] = df['area_mean'] / df['radius_mean']
@@ -26,12 +26,14 @@ def preprocess(df):
   for feature in ['radius', 'texture', 'perimeter', 'area', 'smoothness', 'compactness', 'concavity', 'concave points', 'symmetry', 'fractal_dimension']:
       df[f'{feature}_variation'] = df[f'{feature}_worst'] - df[f'{feature}_mean']
 
-  df['diagnosis'] = LabelEncoder().fit_transform(df['diagnosis'])
+  if 'diagnosis' in df.columns:
+    df['diagnosis'] = LabelEncoder().fit_transform(df['diagnosis'])
 
   return df
 
 def svm_scratch(df, user): 
   df = preprocess(df)
+  user = preprocess(user)
 
   train = df
   train = train.drop(columns="id")
@@ -47,11 +49,13 @@ def svm_scratch(df, user):
   model.fit(X_train, Y_train)
 
   y_pred = model.predict(user)
+  y_pred = np.where(y_pred == -1, 0, y_pred)
   
   return y_pred 
 
 def xgboost_scratch(df, user):
   df = preprocess(df)
+  user = preprocess(user)
 
   train = df
   train = train.drop(columns="id")
@@ -72,6 +76,7 @@ def xgboost_scratch(df, user):
 
 def xgboost_package(df, user):
   df = preprocess(df)
+  user = preprocess(user)
 
   train = df
   train = train.drop(columns="id")
@@ -89,6 +94,7 @@ def xgboost_package(df, user):
 
 def svm_package(df, user):
   df = preprocess(df)
+  user = preprocess(user)
 
   train = df
   train = train.drop(columns="id")
