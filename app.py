@@ -9,7 +9,7 @@ from train_and_predict import svm_scratch, xgboost_scratch, svm_package, xgboost
 app = Flask(__name__)
 
 df = pd.read_csv("./data/breast_cancer.csv")  # Replace with your dataset path data/breast_cancer.csv
-features = list(df.columns[:1]) + list(df.columns[2:])
+features = list(df.columns[2:])
 print(features)
 
 feature1 = ""

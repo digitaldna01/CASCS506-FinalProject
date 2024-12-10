@@ -1,169 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Search</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
 
-<body>
-    <h1>Breast Cancer Diagnosis Predictor</h1>
-    <p>Enter information from digitized images of a fine needle aspirate (FNA) of a breast mass to predict the
-        malignancy of the tumor.</p>
-    <h2>Visualize the Data</h2>
-    <form id="features">
+  <body>
+    <div class="container">
+      <h1>Breast Cancer Diagnosis Predictor</h1>
+      <p style="text-align: center;">
+        Enter information from digitized images of a fine needle aspirate (FNA)
+        of a breast mass to predict the malignancy of the tumor.
+      </p>
+      <h2>Visualize the Data</h2>
+      <form id="features">
         <label for="f1" name="f1" required>feature 1:</label>
         <select name="feature1" id="feature1" required>
-            {% for feature in features %}
-            <option value="{{ feature }}">{{ feature }}</option>
-            {% endfor %}
+          {% for feature in features %}
+          <option value="{{ feature }}">{{ feature }}</option>
+          {% endfor %}
         </select>
         <label for="f2" name="f2" required>feature 2:</label>
         <select name="feature2" id="feature2" required>
-            {% for feature in features %}
-            <option value="{{ feature }}">{{ feature }}</option>
-            {% endfor %}
+          {% for feature in features %}
+          <option value="{{ feature }}">{{ feature }}</option>
+          {% endfor %}
         </select>
         <button type="submit">Generate Plot</button>
-    </form>
-    <div id="results"></div>
-    <h2>Input Additional Information:</h2>
-    <form id="add">
+      </form>
+      <div id="results"></div>
+      <h2>Input Additional Information:</h2>
+      <form id="add">
         <div class="form-group">
-            <label for="rad_mean">Radius Mean (mean of distances from center to points on the perimeter) | range [6 ~ 29] </label>
-            <input type="text" class="form-control" id="rad_mean" name="rad_mean" required>
+          <label for="rad_mean"
+            >Radius Mean (mean of distances from center to points on the
+            perimeter) | range [6 ~ 29]
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="rad_mean"
+            name="rad_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="text_mean">Texture Mean (standard deviation of gray-scale values) | range [9 ~ 40] </label>
-            <input type="text" class="form-control" id="text_mean" name="text_mean" required>
+          <label for="text_mean"
+            >Texture Mean (standard deviation of gray-scale values) | range [9 ~
+            40]
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="text_mean"
+            name="text_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="per_mean">Perimeter Mean (mean size of the core tumor) | range [43 ~ 190] </label>
-            <input type="text" class="form-control" id="per_mean" name="per_mean" required>
+          <label for="per_mean"
+            >Perimeter Mean (mean size of the core tumor) | range [43 ~ 190]
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="per_mean"
+            name="per_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="area_mean">Area Mean | range [143 ~ 2500]</label>
-            <input type="text" class="form-control" id="area_mean" name="area_mean" required>
+          <label for="area_mean">Area Mean | range [143 ~ 2500]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="area_mean"
+            name="area_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="smooth_mean">Smoothness Mean (mean of local variation in radius lengths) | range [0.03 ~ 0.17]</label>
-            <input type="text" class="form-control" id="smooth_mean" name="smooth_mean" required>
+          <label for="smooth_mean"
+            >Smoothness Mean (mean of local variation in radius lengths) | range
+            [0.03 ~ 0.17]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="smooth_mean"
+            name="smooth_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="comp_mean">Compactness Mean (mean of perimeter^2 / area - 1.0) | range [0.00 ~ 0.35]</label>
-            <input type="text" class="form-control" id="comp_mean" name="comp_mean" required>
+          <label for="comp_mean"
+            >Compactness Mean (mean of perimeter^2 / area - 1.0) | range [0.00 ~
+            0.35]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="comp_mean"
+            name="comp_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="conc_mean">Concavity Mean (mean of severity of concave portions of the contour) | range [6 ~ 29]</label>
-            <input type="text" class="form-control" id="conc_mean" name="conc_mean" required>
+          <label for="conc_mean"
+            >Concavity Mean (mean of severity of concave portions of the
+            contour) | range [6 ~ 29]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="conc_mean"
+            name="conc_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="concave points_mean">Concave Points Mean (mean for number of concave portions of the contour) | range [0.00 ~ 0.20] </label>
-            <input type="text" class="form-control" id="concave points_mean" name="concave points_mean" required>
+          <label for="concave points_mean"
+            >Concave Points Mean (mean for number of concave portions of the
+            contour) | range [0.00 ~ 0.20]
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="concave points_mean"
+            name="concave points_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="sym_mean">Symmetry Mean | range [0.1 ~ 0.3]</label>
-            <input type="text" class="form-control" id="sym_mean" name="sym_mean" required>
+          <label for="sym_mean">Symmetry Mean | range [0.1 ~ 0.3]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="sym_mean"
+            name="sym_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="frac_dim_mean">Fractal Dimension Mean (mean for "coastline approximation" - 1) | range [0.04 ~ 0.1]</label>
-            <input type="text" class="form-control" id="frac_dim_mean" name="frac_dim_mean" required>
+          <label for="frac_dim_mean"
+            >Fractal Dimension Mean (mean for "coastline approximation" - 1) |
+            range [0.04 ~ 0.1]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="frac_dim_mean"
+            name="frac_dim_mean"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="rad_se">Radius SE (standard error for the mean of distances from center to points on the perimeter) | range [0.0 ~ 3.0]</label>
-            <input type="text" class="form-control" id="rad_se" name="rad_se" required>
+          <label for="rad_se"
+            >Radius SE (standard error for the mean of distances from center to
+            points on the perimeter) | range [0.0 ~ 3.0]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="rad_se"
+            name="rad_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="text_se">Texture SE (standard error for standard deviation of gray-scale values) | range [0.3 ~ 5.0]</label>
-            <input type="text" class="form-control" id="text_se" name="text_se" required>
+          <label for="text_se"
+            >Texture SE (standard error for standard deviation of gray-scale
+            values) | range [0.3 ~ 5.0]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="text_se"
+            name="text_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="per_se">Perimeter SE | range [0.7 ~ 22]</label>
-            <input type="text" class="form-control" id="per_se" name="per_se" required>
+          <label for="per_se">Perimeter SE | range [0.7 ~ 22]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="per_se"
+            name="per_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="area_se">Area SE | range [6 ~ 543]</label>
-            <input type="text" class="form-control" id="area_se" name="area_se" required>
+          <label for="area_se">Area SE | range [6 ~ 543]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="area_se"
+            name="area_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="smooth_se">Smoothness SE (standard error for local variation in radius lengths) | range [0 ~ 0.04]</label>
-            <input type="text" class="form-control" id="smooth_se" name="smooth_se" required>
+          <label for="smooth_se"
+            >Smoothness SE (standard error for local variation in radius
+            lengths) | range [0 ~ 0.04]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="smooth_se"
+            name="smooth_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="comp_se">Compactness SE (standard error for perimeter^2 / area - 1.0) | range [0 ~ 0.15]</label>
-            <input type="text" class="form-control" id="comp_se" name="comp_se" required>
+          <label for="comp_se"
+            >Compactness SE (standard error for perimeter^2 / area - 1.0) |
+            range [0 ~ 0.15]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="comp_se"
+            name="comp_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="conc_se">Concavity SE (standard error for severity of concave portions of the contour) | range [0 ~ 0.4]</label>
-            <input type="text" class="form-control" id="conc_se" name="conc_se" required>
+          <label for="conc_se"
+            >Concavity SE (standard error for severity of concave portions of
+            the contour) | range [0 ~ 0.4]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="conc_se"
+            name="conc_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="concave points_se">Concave Points SE (standard error for number of concave portions of the contour) | range [0 ~ 0.05]</label>
-            <input type="text" class="form-control" id="concave points_se" name="concave points_se" required>
+          <label for="concave points_se"
+            >Concave Points SE (standard error for number of concave portions of
+            the contour) | range [0 ~ 0.05]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="concave points_se"
+            name="concave points_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="sym_se">Symmetry SE | range [0 ~ 0.08]</label>
-            <input type="text" class="form-control" id="sym_se" name="sym_se" required>
+          <label for="sym_se">Symmetry SE | range [0 ~ 0.08]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="sym_se"
+            name="sym_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="frac_dim_se">Fractal Dimension SE (standard error for "coastline approximation" - 1) | range [0 ~ 0.03]</label>
-            <input type="text" class="form-control" id="frac_dim_se" name="frac_dim_se" required>
+          <label for="frac_dim_se"
+            >Fractal Dimension SE (standard error for "coastline approximation"
+            - 1) | range [0 ~ 0.03]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="frac_dim_se"
+            name="frac_dim_se"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="rad_worst">Radius Worst ("worst" or largest mean value for mean of distances from center to points on the perimeter) | range [5 ~ 40]</label>
-            <input type="text" class="form-control" id="rad_worst" name="rad_worst" required>
+          <label for="rad_worst"
+            >Radius Worst ("worst" or largest mean value for mean of distances
+            from center to points on the perimeter) | range [5 ~ 40]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="rad_worst"
+            name="rad_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="text_worst">Texture Worst ("worst" or largest mean value for standard deviation of gray-scale values) | range [10 ~ 50]</label>
-            <input type="text" class="form-control" id="text_worst" name="text_worst" required>
+          <label for="text_worst"
+            >Texture Worst ("worst" or largest mean value for standard deviation
+            of gray-scale values) | range [10 ~ 50]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="text_worst"
+            name="text_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="per_worst">Perimeter Worst | range [50 ~ 250]</label>
-            <input type="text" class="form-control" id="per_worst" name="per_worst" required>
+          <label for="per_worst">Perimeter Worst | range [50 ~ 250]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="per_worst"
+            name="per_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="area_worst">Area Worst | range [185 ~ 4300]</label>
-            <input type="text" class="form-control" id="area_worst" name="area_worst" required>
+          <label for="area_worst">Area Worst | range [185 ~ 4300]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="area_worst"
+            name="area_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="smooth_worst">Smoothness Worst ("worst" or largest mean value for local variation in radius lengths) | range [0.05 ~ 0.25]</label>
-            <input type="text" class="form-control" id="smooth_worst" name="smooth_worst" required>
+          <label for="smooth_worst"
+            >Smoothness Worst ("worst" or largest mean value for local variation
+            in radius lengths) | range [0.05 ~ 0.25]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="smooth_worst"
+            name="smooth_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="comp_worst">Compactness Worst ("worst" or largest mean value for perimeter^2 / area - 1.0) | range [0 ~ 1]</label>
-            <input type="text" class="form-control" id="comp_worst" name="comp_worst" required>
+          <label for="comp_worst"
+            >Compactness Worst ("worst" or largest mean value for perimeter^2 /
+            area - 1.0) | range [0 ~ 1]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="comp_worst"
+            name="comp_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="conc_worst">Concavity Worst ("worst" or largest mean value for severity of concave portions of the contour) | range [0 ~ 1.25]</label>
-            <input type="text" class="form-control" id="conc_worst" name="conc_worst" required>
+          <label for="conc_worst"
+            >Concavity Worst ("worst" or largest mean value for severity of
+            concave portions of the contour) | range [0 ~ 1.25]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="conc_worst"
+            name="conc_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="concave points_worst">Concave Points Worst ("worst" or largest mean value for number of concave portions of the contour) | range [0 ~ 0.3]</label>
-            <input type="text" class="form-control" id="concave points_worst" name="concave points_worst" required>
+          <label for="concave points_worst"
+            >Concave Points Worst ("worst" or largest mean value for number of
+            concave portions of the contour) | range [0 ~ 0.3]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="concave points_worst"
+            name="concave points_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="sym_worst">Symmetry Worst | range [0.15 ~ 0.7]</label>
-            <input type="text" class="form-control" id="sym_worst" name="sym_worst" required>
+          <label for="sym_worst">Symmetry Worst | range [0.15 ~ 0.7]</label>
+          <input
+            type="text"
+            class="form-control"
+            id="sym_worst"
+            name="sym_worst"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="frac_dim_worst">Fractal Dimension Worst ("worst" or largest mean value for "coastline approximation" - 1) | range [0.05 ~ 0.2]</label>
-            <input type="text" class="form-control" id="frac_dim_worst" name="frac_dim_worst" required>
+          <label for="frac_dim_worst"
+            >Fractal Dimension Worst ("worst" or largest mean value for
+            "coastline approximation" - 1) | range [0.05 ~ 0.2]</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="frac_dim_worst"
+            name="frac_dim_worst"
+            required
+          />
         </div>
         <button type="submit">Add my info!</button>
-    </form>
-    <div id="add_info"></div>
-    <div id="predict">
-        <button id="predict-button" style="display: none;">Make my Prediction</button>
-        <select id="models-select" style="display: none;">
-            <option value="svm-scratch">SVM from scratch</option>
-            <option value="xgboost-scratch">XGBoost from scratch</option>
-            <option value="svm-model">SVM from package</option>
-            <option value="xgboost-model">XGBoost from package</option>
+      </form>
+      <div id="add_info"></div>
+      <div id="predict">
+        <button id="predict-button" style="display: none">
+          Make my Prediction
+        </button>
+        <select id="models-select" style="display: none">
+          <option value="svm-scratch">SVM from scratch</option>
+          <option value="xgboost-scratch">XGBoost from scratch</option>
+          <option value="svm-model">SVM from package</option>
+          <option value="xgboost-model">XGBoost from package</option>
         </select>
+      </div>
     </div>
     <script src="/static/script.js"></script>
-</body>
-
+  </body>
 </html>
