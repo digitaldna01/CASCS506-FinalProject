@@ -9,8 +9,10 @@
 </head>
 
 <body>
-    <h1>heyyyyyy</h1>
-    <h2>plot features</h2>
+    <h1>Breast Cancer Diagnosis Predictor</h1>
+    <p>Enter information from digitized images of a fine needle aspirate (FNA) of a breast mass to predict the
+        malignancy of the tumor.</p>
+    <h2>Visualize the Data</h2>
     <form id="features">
         <label for="f1" name="f1" required>feature 1:</label>
         <select name="feature1" id="feature1" required>
@@ -27,7 +29,7 @@
         <button type="submit">Generate Plot</button>
     </form>
     <div id="results"></div>
-    <h2>add my own info:</h2>
+    <h2>Input Additional Information:</h2>
     <form id="add">
         <div class="form-group">
             <label for="rad_mean">Radius Mean</label>
@@ -56,6 +58,10 @@
         <div class="form-group">
             <label for="conc_mean">Concavity Mean</label>
             <input type="text" class="form-control" id="conc_mean" name="conc_mean" required>
+        </div>
+        <div class="form-group">
+            <label for="concave points_mean">Concave Points Mean</label>
+            <input type="text" class="form-control" id="concave points_mean" name="concave points_mean" required>
         </div>
         <div class="form-group">
             <label for="sym_mean">Symmetry Mean</label>
@@ -94,6 +100,10 @@
             <input type="text" class="form-control" id="conc_se" name="conc_se" required>
         </div>
         <div class="form-group">
+            <label for="concave points_se">Concave Points SE</label>
+            <input type="text" class="form-control" id="concave points_se" name="concave points_se" required>
+        </div>
+        <div class="form-group">
             <label for="sym_se">Symmetry SE</label>
             <input type="text" class="form-control" id="sym_se" name="sym_se" required>
         </div>
@@ -128,6 +138,10 @@
         <div class="form-group">
             <label for="conc_worst">Concavity Worst</label>
             <input type="text" class="form-control" id="conc_worst" name="conc_worst" required>
+        </div>
+        <div class="form-group">
+            <label for="concave points_worst">Concave Points Worst</label>
+            <input type="text" class="form-control" id="concave points_worst" name="concave points_worst" required>
         </div>
         <div class="form-group">
             <label for="sym_worst">Symmetry Worst</label>

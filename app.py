@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from train_and_predict import svm_scratch, xgboost_scratch, svm_package
 
 app = Flask(__name__)
 
@@ -112,6 +113,35 @@ def plot_user(user_df):
     print("plotted")
 
     return send_file(img, mimetype='image/png')
+
+@app.route('/predict_user', methods=['POST'])
+def predict_user():
+    model = request.form.get('model')
+    print(model)
+
+    if model == "svm-scratch":
+        y_pred = svm_scratch(df, user_df)
+        print("Svm-scratch")
+    elif model == "xgboost-scratch":
+        y_pred = xgboost_scratch(df, user_df)
+        print("xgboost-scratch")
+    elif model == "svm-model":
+        y_pred = svm_package(df, user_df)
+        print("svm-model")
+    # elif model == "xgboost-model":
+    #     y_pred = xgboost_package(df, user_df)
+    #     print("xgboost-model")
+    
+    print(y_pred)
+    prediction = ""
+    if y_pred[0] == 0: 
+        prediction = "Benign!"
+    elif y_pred[0] == 1:
+        prediction = "Malignant"
+    else:
+        predction = "Data is invalid"
+
+    return jsonify({'prediction': prediction})
 
 if __name__ == '__main__':
     app.run(debug=True)
