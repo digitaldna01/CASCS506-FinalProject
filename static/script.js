@@ -121,20 +121,93 @@ document.getElementById('features').addEventListener('submit', function (event) 
         method: 'POST',
         body: formData,
     })
-    .then(response => {
-        if (response.ok) {
-            return response.blob(); // Get the response as a Blob (binary large object)
-        } else {
-            throw new Error('Failed to generate plot');
-        }
+        .then(response => {
+            if (response.ok) {
+
+                return response.blob(); // Get the response as a Blob (binary large object)
+            } else {
+                throw new Error('Failed to generate plot');
+            }
+        })
+        .then(blob => {
+            // Create a URL for the image Blob and display it in an <img> tag
+            const imgURL = URL.createObjectURL(blob);
+            resultsDiv.innerHTML = `<img src="${imgURL}" alt="Generated Plot">`;
+        })
+        .catch(error => {
+            console.error(error);
+            resultsDiv.innerHTML = 'An error occurred while generating the plot.';
+        });
+});
+
+document.getElementById('add').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    let resultsDiv = document.getElementById('add_info');
+    resultsDiv.innerHTML = '';
+
+    //const formData = new FormData();
+
+    // const form = document.getElementById('add');
+    // const formData = new FormData(form);
+
+    const formData = {
+        "radius_mean": parseFloat(document.getElementById('rad_mean').value),
+        "texture_mean": parseFloat(document.getElementById('text_mean').value),
+        "perimeter_mean": parseFloat(document.getElementById('per_mean').value),
+        "area_mean": parseFloat(document.getElementById('area_mean').value),
+        "smoothness_mean": parseFloat(document.getElementById('smooth_mean').value),
+        "compactness_mean": parseFloat(document.getElementById('comp_mean').value),
+        "concavity_mean": parseFloat(document.getElementById('conc_mean').value),
+        "symmetry_mean": parseFloat(document.getElementById('sym_mean').value),
+        "fractal_dimension_mean": parseFloat(document.getElementById('frac_dim_mean').value),
+
+        "radius_se": parseFloat(document.getElementById('rad_se').value),
+        "texture_se": parseFloat(document.getElementById('text_se').value),
+        "perimeter_se": parseFloat(document.getElementById('per_se').value),
+        "area_se": parseFloat(document.getElementById('area_se').value),
+        "smoothness_se": parseFloat(document.getElementById('smooth_se').value),
+        "compactness_se": parseFloat(document.getElementById('comp_se').value),
+        "concavity_se": parseFloat(document.getElementById('conc_se').value),
+        "symmetry_se": parseFloat(document.getElementById('sym_se').value),
+        "fractal_dimension_se": parseFloat(document.getElementById('frac_dim_se').value),
+
+        "radius_worst": parseFloat(document.getElementById('rad_worst').value),
+        "texture_worst": parseFloat(document.getElementById('text_worst').value),
+        "perimeter_worst": parseFloat(document.getElementById('per_worst').value),
+        "area_worst": parseFloat(document.getElementById('area_worst').value),
+        "smoothness_worst": parseFloat(document.getElementById('smooth_worst').value),
+        "compactness_worst": parseFloat(document.getElementById('comp_worst').value),
+        "concavity_worst": parseFloat(document.getElementById('conc_worst').value),
+        "symmetry_worst": parseFloat(document.getElementById('sym_worst').value),
+        "fractal_dimension_worst": parseFloat(document.getElementById('frac_dim_worst').value)
+    };
+
+    console.log(formData);
+
+    fetch('/user_info', {
+        method: 'POST',
+        //body: formData,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
     })
-    .then(blob => {
-        // Create a URL for the image Blob and display it in an <img> tag
-        const imgURL = URL.createObjectURL(blob);
-        resultsDiv.innerHTML = `<img src="${imgURL}" alt="Generated Plot">`;
-    })
-    .catch(error => {
-        console.error(error);
-        resultsDiv.innerHTML = 'An error occurred while generating the plot.';
-    });
+        .then(response => {
+            if (response.ok) {
+                // return response.json(); // Parse the JSON response
+                return response.blob();
+            } else {
+                throw new Error('Failed to add data');
+            }
+        })
+        .then(blob => {
+            // Create a URL for the image Blob and display it in an <img> tag
+            const imgURL = URL.createObjectURL(blob);
+            resultsDiv.innerHTML = `<img src="${imgURL}" alt="Generated Plot">`;
+        })
+        .catch(error => {
+            console.error(error);
+            alert('An error occurred while adding the data.');
+        });
 });
