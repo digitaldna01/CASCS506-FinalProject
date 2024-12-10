@@ -49,11 +49,12 @@ class Node:
         # print(self.idxs)
         # print(f"Type of idxs: {type(self.idxs)}")
 
-        print(self.gradient.index)
-        print(self.hessian.index)
+        valid_idxs = [idx for idx in self.idxs if idx < len(self.gradient)]
+        valid_idxs = np.array(valid_idxs)  # Ensure valid_idxs is a NumPy array for indexing
+        self.gradient = self.gradient[valid_idxs]
+        self.hessian = self.hessian[valid_idxs]
 
-        print(f"Gradient length: {len(self.gradient)}, Hessian length: {len(self.hessian)}")
-        print(f"Max idx in idxs: {max(self.idxs)}, Min idx in idxs: {min(self.idxs)}")
+        print(type(self.x))
 
 
         self.column_subsample = np.random.permutation(self.col_count)[:round(self.subsample_cols*self.col_count)]
