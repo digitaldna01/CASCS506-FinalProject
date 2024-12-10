@@ -140,6 +140,15 @@
         <button type="submit">Add my info!</button>
     </form>
     <div id="add_info"></div>
+    <div id="predict">
+        <button id="predict-button" style="display: none;">Make my Prediction</button>
+        <select id="models-select" style="display: none;">
+            <option value="svm-scratch">SVM from scratch</option>
+            <option value="xgboost-scratch">XGBoost from scratch</option>
+            <option value="svm-model">SVM from package</option>
+            <option value="xgboost-model">XGBoost from package</option>
+        </select>
+    </div>
     <script src="/static/script.js"></script>
 </body>
 

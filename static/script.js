@@ -146,6 +146,8 @@ document.getElementById('add').addEventListener('submit', function (event) {
     let resultsDiv = document.getElementById('add_info');
     resultsDiv.innerHTML = '';
 
+    let predictDiv = document.getElementById('predict');
+
     //const formData = new FormData();
 
     // const form = document.getElementById('add');
@@ -205,9 +207,16 @@ document.getElementById('add').addEventListener('submit', function (event) {
             // Create a URL for the image Blob and display it in an <img> tag
             const imgURL = URL.createObjectURL(blob);
             resultsDiv.innerHTML = `<img src="${imgURL}" alt="Generated Plot">`;
+
+            document.getElementById('predict-button').style.display = 'block';
+            document.getElementById('models-select').style.display = 'block';
         })
         .catch(error => {
             console.error(error);
             alert('An error occurred while adding the data.');
         });
 });
+
+document.getElementById('predict').addEventListener('predict-button', function (event) {
+    event.preventDefault();
+}); 
