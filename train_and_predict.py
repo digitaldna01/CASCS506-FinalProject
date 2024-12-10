@@ -1,6 +1,7 @@
+import numpy as np
 from models.svm import SVM
 from models.xgboost_scratch import XGBoostFromScratch
-# from xgboost import XGBClassifier
+from xgboost import XGBClassifier
 from sklearn.svm import SVC 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
@@ -48,6 +49,7 @@ def svm_scratch(df, user):
   model.fit(X_train, Y_train)
 
   y_pred = model.predict(user)
+  y_pred = np.where(y_pred == -1, 0, y_pred)
   
   return y_pred 
 
@@ -72,23 +74,23 @@ def xgboost_scratch(df, user):
   
   return y_pred 
 
-# def xgboost_package(df, user):
-#   df = preprocess(df)
-#   user = preprocess(user)
+def xgboost_package(df, user):
+  df = preprocess(df)
+  user = preprocess(user)
 
-#   train = df
-#   train = train.drop(columns="id")
-#   X_train = train[train['diagnosis'].notnull()]
+  train = df
+  train = train.drop(columns="id")
+  X_train = train[train['diagnosis'].notnull()]
 
-#   Y_train = X_train['diagnosis']
-#   X_train = X_train.drop(columns=['diagnosis'])
+  Y_train = X_train['diagnosis']
+  X_train = X_train.drop(columns=['diagnosis'])
 
-#   model = XGBClassifier(tree_method = "hist", device = "cuda").fit(X_train, Y_train.astype(int))
-#   model.fit(X_train, Y_train)
+  model = XGBClassifier(tree_method = "hist", device = "cuda").fit(X_train, Y_train.astype(int))
+  model.fit(X_train, Y_train)
 
-#   y_pred = model.predict(user)
+  y_pred = model.predict(user)
   
-#   return y_pred 
+  return y_pred 
 
 def svm_package(df, user):
   df = preprocess(df)
