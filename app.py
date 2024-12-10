@@ -1,5 +1,5 @@
 # add imports below
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, flash, jsonify
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
@@ -54,6 +54,14 @@ def plot():
     print("plotted")
 
     return send_file(img, mimetype='image/png')
+
+@app.route('/user_info', methods=['POST'])
+def add_user():
+    new_data = request.get_json()  # Parse JSON payload but parses it into a python dictionary
+    print('Data registered successfully!')
+    print(new_data)
+    #return jsonify(new_data) # which is why u have to jsonify here for the front end
+    return new_data
 
 
 if __name__ == '__main__':

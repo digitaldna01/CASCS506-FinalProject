@@ -138,3 +138,100 @@ document.getElementById('features').addEventListener('submit', function (event) 
         resultsDiv.innerHTML = 'An error occurred while generating the plot.';
     });
 });
+
+document.getElementById('add').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    let rad_mean = parseFloat(document.getElementById('rad_mean').value);
+    let text_mean = parseFloat(document.getElementById('text_mean').value);
+    let per_mean = parseFloat(document.getElementById('per_mean').value);
+    let area_mean = parseFloat(document.getElementById('area_mean').value);
+    let smooth_mean = parseFloat(document.getElementById('smooth_mean').value);
+    let comp_mean = parseFloat(document.getElementById('comp_mean').value);
+    let conc_mean = parseFloat(document.getElementById('conc_mean').value);
+    let sym_mean = parseFloat(document.getElementById('sym_mean').value);
+    let frac_dim_mean = parseFloat(document.getElementById('frac_dim_mean').value);
+
+    let rad_se = parseFloat(document.getElementById('rad_se').value);
+    let text_se = parseFloat(document.getElementById('text_se').value);
+    let per_se = parseFloat(document.getElementById('per_se').value);
+    let area_se = parseFloat(document.getElementById('area_se').value);
+    let smooth_se = parseFloat(document.getElementById('smooth_se').value);
+    let comp_se = parseFloat(document.getElementById('comp_se').value);
+    let conc_se = parseFloat(document.getElementById('conc_se').value);
+    let sym_se = parseFloat(document.getElementById('sym_se').value);
+    let frac_dim_se = parseFloat(document.getElementById('frac_dim_se').value);
+
+    let rad_worst = parseFloat(document.getElementById('rad_worst').value);
+    let text_worst = parseFloat(document.getElementById('text_worst').value);
+    let per_worst = parseFloat(document.getElementById('per_worst').value);
+    let area_worst = parseFloat(document.getElementById('area_worst').value);
+    let smooth_worst = parseFloat(document.getElementById('smooth_worst').value);
+    let comp_worst = parseFloat(document.getElementById('comp_worst').value);
+    let conc_worst = parseFloat(document.getElementById('conc_worst').value);
+    let sym_worst = parseFloat(document.getElementById('sym_worst').value);
+    let frac_dim_worst = parseFloat(document.getElementById('frac_dim_worst').value);
+
+    //const formData = new FormData();
+
+    // const form = document.getElementById('add');
+    // const formData = new FormData(form);
+
+    const formData = {
+        "radius_mean": rad_mean,
+        "texture_mean": parseFloat(document.getElementById('text_mean').value),
+        "perimeter_mean": parseFloat(document.getElementById('per_mean').value),
+        "area_mean": parseFloat(document.getElementById('area_mean').value),
+        "smoothness_mean": parseFloat(document.getElementById('smooth_mean').value),
+        "compactness_mean": parseFloat(document.getElementById('comp_mean').value),
+        "concavity_mean": parseFloat(document.getElementById('conc_mean').value),
+        "symmetry_mean": parseFloat(document.getElementById('sym_mean').value),
+        "fractal_dimension_mean": parseFloat(document.getElementById('frac_dim_mean').value),
+
+        "radius_se": parseFloat(document.getElementById('rad_se').value),
+        "texture_se": parseFloat(document.getElementById('text_se').value),
+        "perimeter_se": parseFloat(document.getElementById('per_se').value),
+        "area_se": parseFloat(document.getElementById('area_se').value),
+        "smoothness_se": parseFloat(document.getElementById('smooth_se').value),
+        "compactness_se": parseFloat(document.getElementById('comp_se').value),
+        "concavity_se": parseFloat(document.getElementById('conc_se').value),
+        "symmetry_se": parseFloat(document.getElementById('sym_se').value),
+        "fractal_dimension_se": parseFloat(document.getElementById('frac_dim_se').value),
+
+        "radius_worst": parseFloat(document.getElementById('rad_worst').value),
+        "texture_worst": parseFloat(document.getElementById('text_worst').value),
+        "perimeter_worst": parseFloat(document.getElementById('per_worst').value),
+        "area_worst": parseFloat(document.getElementById('area_worst').value),
+        "smoothness_worst": parseFloat(document.getElementById('smooth_worst').value),
+        "compactness_worst": parseFloat(document.getElementById('comp_worst').value),
+        "concavity_worst": parseFloat(document.getElementById('conc_worst').value),
+        "symmetry_worst": parseFloat(document.getElementById('sym_worst').value),
+        "fractal_dimension_worst": parseFloat(document.getElementById('frac_dim_worst').value)
+    };
+
+    console.log(formData);
+
+    fetch('/user_info', {
+        method: 'POST',
+        //body: formData,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); // Parse the JSON response
+        } else {
+            throw new Error('Failed to add data');
+        }
+    })
+    .then(data => {
+        console.log('Data received:', data);
+        // You can now use `data` (the new data) as needed
+    })
+    .catch(error => {
+        console.error(error);
+        alert('An error occurred while adding the data.');
+    });
+});
