@@ -286,4 +286,4 @@ The `requirements.txt` file should list all the Python libraries that these code
 >
     pip install -r requirements.txt
 
-In the Makefile the requirements installcation is included.
+In the Makefile, the requirements installcation is included.
