@@ -175,7 +175,7 @@ These parameter settings were chosen to optimize the SVM's performance while mai
 | `n_iters`          | [100, 500, 1000, 2000]       | 100                     |
 
 #### Final Result:
-Before hyperparameter tuning, the model's accuracy was **0.36029**, which improved to **0.92647** after tuning. Although the improvement seems slight, when compared to the accuracy of **0.970588** achieved by the XGBoost package's built-in implementation, it demonstrates a significant improvement for a custom implementation like ours.
+Before hyperparameter tuning, the model's accuracy was **0.36029**, which improved to **0.92647** after tuning. Although the improvement seems slight, when compared to the accuracy of **0.970588** achieved by the SVC package's built-in implementation, it demonstrates a significant improvement for a custom implementation like ours.
 
 | **RESULT**      | `learning_rate`             | `C` |  `n_iters` | 
 |----------------------|-----------------|-----------------------|-------------------------|
@@ -208,7 +208,7 @@ Before hyperparameter tuning, the model's accuracy was **0.36029**, which improv
    - A higher `C` value prioritized minimizing classification errors near the margin, avoiding oversimplified decision boundaries.  
    - This enhanced the model’s ability to classify challenging cases more accurately.
 
-The significant jump in accuracy demonstrates the importance of careful hyperparameter tuning. By balancing precision (via learning rate), flexibility (via `C`), and stability (via iterations), the tuned SVM achieved **92.65% accuracy**, competing closely with XGBoost's **97.05% accuracy**. This highlights the strength of the custom SVM implementation when properly optimized.
+The significant jump in accuracy demonstrates the importance of careful hyperparameter tuning. By balancing precision (via learning rate), flexibility (via `C`), and stability (via iterations), the tuned SVM achieved **92.65% accuracy**, competing closely with SVC's **97.05% accuracy**. This highlights the strength of the custom SVM implementation when properly optimized.
 
 <img src="./image/svmMatrix.png" alt="Resized Image" width="600">
 <img src="./image/ScratchSvmMatrix.png" alt="Resized Image" width="600">
