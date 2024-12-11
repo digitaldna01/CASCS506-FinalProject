@@ -25,11 +25,14 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
+        make install
+        pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run application
+    - name: Run Build
       run: |
-        make run & 
-        sleep 10
+        make run &
+        sleep 10  # Sleep for 10 seconds to allow the server time to start
+
     - name: Test with pytest
       run: |
         pytest
