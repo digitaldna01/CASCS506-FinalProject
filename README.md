@@ -1,16 +1,17 @@
 # CAS CS506 Final Project
-Our final product is a web application through which users are able to get a prediction for the malignancy of their tumor, after inputting information from their fine needle aspirate (FNA). 
+Our final product is a web application through which users are able to get a prediction for the malignancy of their tumor, after inputting information from their fine needle aspirate (FNA). Users are able to see the distribution of the data, in relation to features of interest that they select. Additionally, they are able to input their own information based on their FNA results, which allows them to see where they lay within that distribution as well as predict their cancer malignancy using a model that we created. 
 
 ## Dataset 
+The inspiration for this project was our collective interest in biological applications for data science and computer intelligence. We decided that we wanted to explore the possibilities that lie within classification in oncology, whether in identifying the presence of cancer or in defining the malignancy. Since early identification of cancer can have great impacts on the odds of the patient, findings such as these are important to explore. 
 ### cBioPortal Dataset
 
 Initially, we were planning on using the cBioPortal Data Acute Myeloid Leukemia set, which included information from many trials, including allele, gene, and white blood cell counts. From this data, we wanted to create and train a model that would best classify the type of cancer based on this information. We started by preprocessing the data: removing unnecessary columns, engineering different features, and creating data visualizations. However, after looking at the data visualizations, we realized that an overwhelming majority of the data set’s cancer type was Acute Myeloid Leukemia, as you can see below. Therefore, we decided it would not be very interesting for us to create and train a model on this data set since simply inferring that any trial would be Acute Myeloid Leukemia would already result in a very high accuracy. 
 <!-- ![image info](./image/cancerTypes.png) -->
 <img src="./image/cancerTypes.png" alt="Resized Image" width="600">
 
-### NEW Kaggle Dataset
+### Kaggle Breast Cancer Wisconsin (Diagnostic) Data Set
 
-Instead, we decided to pivot and look for another, somewhat related, dataset. After some research, we found a Kaggle Dataset that included information such as tumor size, area, and density. From this information, we hope to train a model that classifies the tumor as benign or malignant based on that information. In this data set, there is a much more evenly distributed split, with 63% benign and 37% malignant tumors, allowing us to better understand how to build a model to classify the data. 
+Instead, we decided to pivot and look for another, somewhat related, dataset. After some research, we found a Kaggle Dataset that included information from the FNA of a breast mass such as tumor size, area, and density. This data came from the University of Wisconsin's computer science ftp server. From this information, we hope to train a model that can classify a tumor with the given FNA stats as benign or malignant based on that information. In this data set, there is a much more evenly distributed split, with 63% benign and 37% malignant tumors, allowing us to better understand how to build a model to classify the data. 
 
 ## Preprocessing
 
@@ -43,28 +44,27 @@ For each specified feature, this step calculates the difference between the wors
 ## Model Creation
 
 ### Splitting the Data
-As the first step in our model creation, we split our data into the nexessary X_train, X_test, Y_train, and Y_test using train_test_split() from sklearn, which allows us to preserve the splits of data that we initially stated in our proposal. Then, we used these sets to create our XGBoost and SVC models.
+As the first step in our model creation, we split our data into the nevessary X_train, X_test, Y_train, and Y_test using train_test_split() from sklearn, which allows us to preserve the splits of data that we initially stated in our proposal. Then, we used these sets to create our XGBoost and SVC models.
 
 ### 1. XGBoost
-The first model we created was XGBoost, using sklearn. We wanted to utilize XGBoost as one of our models due to its power and efficiency when it comes ot classification tasks. Additionally, we utilized the acuracy score and confusion matrix functions from sklearn to evaluate how well XGBoost ws classifying the data. With this model, we got an accurayc of around 0.96, also reflected in the confusion matrix, which indicated that XGBoost would be a good model for us to implement in our from-scratch portion.
+The first model we created was XGBoost, using sklearn. We wanted to utilize XGBoost as one of our models due to its power and efficiency when it comes to classification tasks. Additionally, we utilized the acuracy score and confusion matrix functions from sklearn to evaluate how well XGBoost ws classifying the data. With this model, we got an accurayc of around 0.96, also reflected in the confusion matrix, which indicated that XGBoost would be a good model for us to implement in our from-scratch portion.
 <!-- ![image info](./image/xgboostMatrix.png) -->
 <img src="./image/xgboostMatrix.png" alt="Resized Image" width="600">
 
 ### 2. SVC
-The next model we creater was SVC, using SVM from sklearn. We knew that SVM was a powerful model from class, and that SVC would be the best variations as our task in this poroject is a classification task rather than regression. For this, we also utilized sklearn's accuracy score and confusion matrix functions to evalutae accuracy. For SVC, we ot an accuracy of around 0.97, indicating that SVC was even more accuracte than XGBoost, and also a worthwhile model to implment.
+The next model we creater was SVC, using SVM from sklearn. We knew that SVM was a powerful model from class, and that SVC would be the best variations as our task in this poroject is a classification task rather than regression. For this, we also utilized sklearn's accuracy score and confusion matrix functions to evalutae accuracy. For SVC, we got an accuracy of around 0.97, indicating that SVC was even more accuracte than XGBoost, and also a worthwhile model to implment.
 <!-- ![image info](./image/svmMatrix.png) -->
 <img src="./image/svmMatrix.png" alt="Resized Image" width="600">
 
-# Here is our midterm report presentation. Beyond this point is our progress after that
+## Here is our midterm report presentation. Beyond this point is our progress after that
 
-### Video Link: https://youtu.be/xuDXcFzg1y0 
+### Midterm Presentation Video Link: https://youtu.be/xuDXcFzg1y0 
 
 ## Custom Models 
-
+After determining which models were likely to be successful on training the clasification of this dataset, we decided to create our own versions of these models in order to allow to for better tuning and customization to our dataset. 
 ### XGBoost 
-
 #### Creation 
-This code implements a simplified version of the XGBoost algorithm from scratch. It trains a set of decision trees iteratively, using gradient boosting to optimize predictions. Each tree corrects the residuals (errors) of the previous predictions. The class XGBoostFromScratch includes methods for training (fit), prediction (predict), and core functionalities like gradient and Hessian calculation, tree building, and gain computation. The goal of this implementation is to provide a foundational understanding of XGBoost's internal mechanics.
+We implemented a simplified version of the XGBoost algorithm from scratch, which can be found in the models folder. It trains a set of decision trees iteratively, using gradient boosting to optimize predictions. Each tree corrects the residuals (errors) of the previous predictions. The class XGBoostFromScratch includes methods for training (fit), prediction (predict), and core functionalities like gradient and Hessian calculation, tree building, and gain computation. The goal of this implementation is to provide a foundational understanding of XGBoost's internal mechanics.
 
 The fit method trains the model by iteratively adding trees. It begins by initializing predictions (y_pred) to zeros, representing the model's baseline prediction. For each iteration, it computes the gradient and Hessian to guide the tree-building process. 
 
@@ -154,7 +154,7 @@ In order to more easily tune the model to our data, we decided to implement our 
 
 To implement our model, the first main method needed was the fit method, where the model is trained on input data X and classifications y, similar to sci-kit learn’s SVC class. Our fit function first processes y to ensure labels are classifiers, either -1 or 1, making the data set valid for SVM classification. This method then uses a nested loop, going through each of the training samples for each of the specified number of iterations. For each sample, the model checks a condition based on the margin and updates weights and bias accordingly, and when satisfied, the weights are updated to minimize regularization. Otherwise, the updates also consider the hinge loss, adjusting the values to correctly classify the sample while respecting the margin constraint. Through this iterative approach, the model is able to converge toward an optimal hyperplane that separates the two classes effectively.  
 
-Finally, the predict method uses the learned weights and bias to classify new samples by taking the sign of the linear combination of the input features and the weights and bias. It computes the decision function for each sample in X and applies the sign function to assign class labels of either -1 or 1, which ensures that the model will classify data into either of these two categories, -1 and 1. The example in the `__main__`  block demonstrates the functionality with a toy dataset, where the SVM is trained and then used to predict labels for the same data. This code provides a clear and concise implementation of a linear SVM, showcasing essential concepts in machine learning such as hinge loss optimization, regularization, margin maximization, gradient descent, and the relation between them.
+The predict method uses the learned weights and bias to classify new samples by taking the sign of the linear combination of the input features and the weights and bias. It computes the decision function for each sample in X and applies the sign function to assign class labels of either -1 or 1, which ensures that the model will classify data into either of these two categories, -1 and 1. These values can then be converted to understand whether a tumor is benign or malignant. This code provides a clear and concise implementation of a linear SVM, showcasing essential concepts in machine learning such as hinge loss optimization, regularization, margin maximization, gradient descent, and the relation between them.
 
 #### Tuning 
 ###### Parameter Explanations
@@ -214,18 +214,35 @@ The significant jump in accuracy demonstrates the importance of careful hyperpar
 <img src="./image/ScratchSvmMatrix.png" alt="Resized Image" width="600">
 
 
-### Final Accuracy 
+### Final Accuracy For Models
 | **Model**      | `SVM Scratch`             | `SVC Package` |  `XGBoost Scratch` | `XGBoost Package`  | 
 |----------------------|-----------------|-----------------------|-------------------------|-------------------|
 | **Accuracy**     |      0.92647      |0.970588 |0.9559 | 0.9632|
+
+
 ## Web Application 
- 
+To best present our data visualizations and model predictions, we decided to create a GUI and incorporate our models into it, rather than leaving our models in a Jupyter Notebook and having the visualizations solely in our report. Our GUI has 3 main components as follows. 
+#### Here is a link to a demo video of our web appplication: 
 ### Functionality 
+The first part of our application allows users to plot the different features and visualize relationships in the data. The data and features for this have already been preprocessed and are not the raw data from the dataset, following the outlier detection and normalization procedure detailed in the midterm report. However, these features do not include those that we have engineered, as this first portion of the website is solely to allow users to gain an understanding of the data. Similar to plots that we have seen in class, our visualizations are 2D scatter plots with a feature on the x-axis and another on the y-axis, and the data points in our dataset. This allows users to interact with the visualization as a means to better familiarize themselves with the data. The GUI is then able to present all the data visualizations, allowing for no limitations of how many visualizations are possible. The plotted points are classified into benign and malignant through different colors, providing a visual representation of how well classifiable the data is. Though we did not have this visualization tool when we began the project, this essentially was our process when performing the exploratory data analysis aspect of the data science process, so that we could better understand our data and the classifiability of the dataset. Below are just some of the feature plots that we found produced the best classifications, but the GUI provides many more possible visualizations.
+<img src="./image/visual1.png" alt="Resized Image" width="600">
+<img src="./image/visual2.png" alt="Resized Image" width="600">
+<img src="./image/visual3.png" alt="Resized Image" width="600">
+<img src="./image/visual4.png" alt="Resized Image" width="600">
 
-### Significance 
+The users are then able to input their own data to be added to our dataset and thus added to the plot from the previous section. This is a critical component of our project as the users can now have a visualization of where they lie relative to the other data points. This can serve multiple purposes, one of which is allowing the user to visualize what class they might belong in. Additionally, this visualization can serve as a source of corroboration for the model predictions. Since user’s are able to see which class their data point might belong in, users can evaluate whether this matches the model prediction. Since our XGboost and SVM models from scratch achieve high accuracy, we can expect that the plot with the user’s info will match the prediction. Below is an example of how the plot would be updated to include the users information plotted with concave point mean and radius mean with user inputs of {'radius_mean': 6, 'texture_mean': 9, 'perimeter_mean': 75, 'area_mean': 150, 'smoothness_mean': 0.16, 'compactness_mean': 0.3, 'concavity_mean': 20, 'concave points_mean': 0.2, 'symmetry_mean': 0.15, 'fractal_dimension_mean': 0.07, 'radius_se': 0.1, 'texture_se': 0.4, 'perimeter_se': 10, 'area_se': 300, 'smoothness_se': 0.01, 'compactness_se': 0.1, 'concavity_se': 0.1, 'concave points_se': 0.01, 'symmetry_se': 0.07, 'fractal_dimension_se': 0.02, 'radius_worst': 20, 'texture_worst': 30, 'perimeter_worst': 70, 'area_worst': 200, 'smoothness_worst': 0.1, 'compactness_worst': 0.8, 'concavity_worst': 1, 'concave points_worst': 0.1, 'symmetry_worst': 0.4, 'fractal_dimension_worst': 0.1} 
+<img src="./image/user_data.png" alt="Resized Image" width="600">
+
+This portion of the GUI, taking in user input, also sets up the foundation of our model prediction. This is a crucial step for the model prediction as the main objective of our project is to use our models to predict the user’s diagnosis. Users can choose whether they want a prediction with XGBoost from scratch, SVM from scratch, XGBoost from the XGBoost package, or SVM from sci-kit learn. Then, taking in this information we are able to use whichever model the user chose to produce their predicted diagnosis. As aformentioned, this diagnosis should correspond to which class the user’s datapoint belongs to in the plot.
+
+## Challenges
+Creating a GUI was a challenge but it allowed us to practice many important skills. The idea of creating this GUI was daunting, as none of us are well-versed in web development, however we were able to overcome the challenges of setting our GUI up, implementing the plotting, and incorporating the models. Not only is the GUI an interactive and intuitive representation of our data and model predictions, it provides us with the ability to overcome web development challenges, as we are all novices, as well as Git practice. While there was no requirement to use GitHub and have good practices, we remembered the emphasis of good software engineering practices from the beginning of the semester. We thus made it an objective for us not only to create our models and data visualizations, but also to refine our own skills as developers. 
+
+## Significance 
+We were motivated to center our project around cancer diagnosis since we are all interested in the bridge between computer intelligence and biological applications. Our web application can simplify the process of determining the malignancy of tumors with the result of FNA biopsies. We hope that this project (and future development of this project) can be useful to physicians when diagnosing patients with breast cancer. Simplifying this diagnosis process may make diagnoses more accessible and thus may allow for cancer to be identified sooner and make it easier to treat. For future iterations, we would like to train models for other cancer testing procedures such as mammograms. Additionally, we hope to find some way to automate the data entry process for new users to increase accessibility to the tech.
 
 
-## Duplicate our code
+# Duplicate our code
 Creating a virtual environment to install packages in Python app development instead of modifying the system-wide environment will allow you to seperate packages.
 
 #### How to start Python Application with Python Environment
