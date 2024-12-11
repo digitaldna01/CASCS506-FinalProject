@@ -107,7 +107,7 @@ The predict method makes predictions using the trained trees. It iterates over a
 | `gamma`           | Minimum loss reduction required to split a node. Prevents overfitting by avoiding trivial splits. | 0             | 
 | `trees`           | Stores the trained decision trees. Used internally during prediction.                         | None          | 
 
-### Hyperparameter Tuning Results
+#### Hyperparameter Tuning Range
 
 | **Parameter**       | **Values**               |
 |----------------------|--------------------------|
@@ -118,14 +118,14 @@ The predict method makes predictions using the trained trees. It iterates over a
 | `lambda_`        | 0, 0.1, 1, 10            |
 | `gamma`          | 0, 1, 5                  |
 
-### Final Result:
+#### Final Result:
 Before hyperparameter tuning, the model's accuracy was **0.9338**, which improved to **0.9559** after tuning. Although the improvement seems slight, when compared to the accuracy of **0.9632** achieved by the XGBoost package's built-in implementation, it demonstrates a significant improvement for a custom implementation like ours.
 
 | **RESULT**      | `max_depth`             | `min_child_weight` |  `learning_rate` | `n_estimators`  | `lambda_` | `gamma`
 |----------------------|-----------------|-----------------------|-------------------------|-------------------|-------------------|------------------|
 | **Values**     |     7            | 3| 0.1| 200| 0| 0
 
-### Reasons for Accuracy Improvement
+#### Reasons for Accuracy Improvement
 
 The improvement in accuracy can be attributed to the following adjustments:
 
@@ -145,7 +145,8 @@ The improvement in accuracy can be attributed to the following adjustments:
    Disabling regularization parameters indicates that the data was sufficiently clean and the model complexity was manageable without additional constraints.
 
 These tuned parameters collectively allowed the model to achieve a balance between complexity and generalization, leading to a noticeable performance improvement.
-
+<img src="./image/xgboostMatrix.png" alt="Resized Image" width="600">
+<img src="./image/ScratchXgboostMatrix.png" alt="Resized Image" width="600">
 
 ### SVM 
 #### Creation
@@ -156,10 +157,67 @@ To implement our model, the first main method needed was the fit method, where t
 Finally, the predict method uses the learned weights and bias to classify new samples by taking the sign of the linear combination of the input features and the weights and bias. It computes the decision function for each sample in X and applies the sign function to assign class labels of either -1 or 1, which ensures that the model will classify data into either of these two categories, -1 and 1. The example in the `__main__`  block demonstrates the functionality with a toy dataset, where the SVM is trained and then used to predict labels for the same data. This code provides a clear and concise implementation of a linear SVM, showcasing essential concepts in machine learning such as hinge loss optimization, regularization, margin maximization, gradient descent, and the relation between them.
 
 #### Tuning 
+###### Parameter Explanations
 
-#### Comparison
+| **Parameter**       | **Purpose**                                                                                   | 
+|----------------------|-----------------------------------------------------------------------------------------------|
+| `learning_rate`     | Controls the step size in weight updates during gradient descent.                             | 
+| `C`                 | Regularization parameter. Balances margin maximization and classification error minimization. |
+| `n_iters`           | Number of iterations for training. Determines how long the gradient descent runs.             | 
+
+These parameter settings were chosen to optimize the SVM's performance while maintaining computational efficiency.
+
+##### Hyperparameter Tuning Range
+| **Parameter**      | **Values Tried**         | **Final Selected Value** |
+|---------------------|--------------------------|---------------------------|
+| `learning_rate`    | [0.00001, 0.0001, 0.001, 0.01]       | 0.00001                     |
+| `C`                | [0.1, 1, 10, 100]        | 10                         |
+| `n_iters`          | [100, 500, 1000, 2000]       | 100                     |
+
+#### Final Result:
+Before hyperparameter tuning, the model's accuracy was **0.36029**, which improved to **0.92647** after tuning. Although the improvement seems slight, when compared to the accuracy of **0.970588** achieved by the XGBoost package's built-in implementation, it demonstrates a significant improvement for a custom implementation like ours.
+
+| **RESULT**      | `learning_rate`             | `C` |  `n_iters` | 
+|----------------------|-----------------|-----------------------|-------------------------|
+| **Values**     |     0.00001            | 10 | 100|
+
+- **Before tuning**: Accuracy was **36.03%**. The model struggled with imbalanced predictions, often biasing results toward one class.
+- **After tuning**: Accuracy improved to **92.65%** due to the optimal combination of parameters:
+
+1. **Learning Rate**:  
+   - The default value of `0.001` caused overshooting during weight updates.  
+   - Lowering it to `0.00001` allowed finer adjustments, leading to better convergence.
+
+2. **C Parameter**:  
+   - Increasing `C` to `10` reduced tolerance for margin errors.  
+   - The model prioritized correctly classifying points near the decision boundary, improving sensitivity to subtle patterns.
+
+3. **Iterations**:  
+   - Excessive iterations (high `n_iters`) in earlier settings caused the model to predict only benign results.  
+   - Limiting iterations to `100` prevented over-adjustments, stabilizing the decision boundary.
+
+4. **High Iterations Leading to All Benign Predictions**:  
+   - With excessive iterations, weights were updated too many times, skewing the decision boundary.  
+   - This resulted in predictions biased toward one class (e.g., benign), which artificially inflated accuracy in imbalanced datasets.
+
+5. **Low Learning Rate and Limited Iterations**:  
+   - Reducing the learning rate to `0.00001` ensured incremental weight adjustments, avoiding drastic changes.  
+   - Coupled with fewer iterations, the model balanced sufficient learning with minimal overfitting.
+
+6. **Importance of C Parameter**:  
+   - A higher `C` value prioritized minimizing classification errors near the margin, avoiding oversimplified decision boundaries.  
+   - This enhanced the model’s ability to classify challenging cases more accurately.
+
+The significant jump in accuracy demonstrates the importance of careful hyperparameter tuning. By balancing precision (via learning rate), flexibility (via `C`), and stability (via iterations), the tuned SVM achieved **92.65% accuracy**, competing closely with XGBoost's **97.05% accuracy**. This highlights the strength of the custom SVM implementation when properly optimized.
+
+<img src="./image/svmMatrix.png" alt="Resized Image" width="600">
+<img src="./image/ScratchSvmMatrix.png" alt="Resized Image" width="600">
 
 
+### Final Accuracy 
+| **Model**      | `SVM Scratch`             | `SVC Package` |  `XGBoost Scratch` | `XGBoost Package`  | 
+|----------------------|-----------------|-----------------------|-------------------------|-------------------|
+| **Accuracy**     |      0.92647      |0.970588 |0.9559 | 0.9632|
 ## Web Application 
  
 ### Functionality 
