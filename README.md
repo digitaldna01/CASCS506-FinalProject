@@ -66,16 +66,86 @@ The next model we creater was SVC, using SVM from sklearn. We knew that SVM was 
 #### Creation 
 This code implements a simplified version of the XGBoost algorithm from scratch. It trains a set of decision trees iteratively, using gradient boosting to optimize predictions. Each tree corrects the residuals (errors) of the previous predictions. The class XGBoostFromScratch includes methods for training (fit), prediction (predict), and core functionalities like gradient and Hessian calculation, tree building, and gain computation. The goal of this implementation is to provide a foundational understanding of XGBoost's internal mechanics.
 
-The fit method trains the model by iteratively adding trees. It begins by initializing predictions (y_pred) to zeros, representing the model's baseline prediction. For each iteration, it computes the gradient (first derivative of the loss function, indicating the direction and magnitude of the residuals) and the Hessian (second derivative, measuring curvature to adjust the gradient's step size). These values guide the tree-building process, ensuring that splits prioritize reducing the loss function. The _build_tree method recursively constructs decision trees by finding optimal splits using the _find_best_split method, which evaluates the potential gain from splitting on each feature and threshold. Once the tree is built, it is added to the model, and the predictions are updated by applying the learning rate to scale the tree's contribution. This process iteratively improves the model's predictions while preventing overfitting through hyperparameters like max_depth and min_child_weight.
+The fit method trains the model by iteratively adding trees. It begins by initializing predictions (y_pred) to zeros, representing the model's baseline prediction. For each iteration, it computes the gradient and Hessian to guide the tree-building process. 
 
-The _build_tree method builds decision trees recursively up to the specified max_depth. Each node's split is determined by the _find_best_split method, which evaluates every feature and possible threshold in the dataset. It computes the gain, a metric that quantifies the improvement in the loss function from splitting the data. If the gain satisfies the min_child_weight constraint (a regularization term ensuring that splits are meaningful), the data is split into left and right child nodes, which are then processed recursively. If a node cannot be split further (e.g., due to depth limits or insufficient data), its value is calculated using _compute_leaf_value, which minimizes the loss for that node by considering the gradient and Hessian values. This recursive approach generates a binary tree that captures the relationships between features and the target variable.
+The gradient (first derivative of the loss function) indicates the direction and magnitude of residual errors. For logistic loss (LogLoss), the gradient is calculated as:
 
-The predict method makes predictions using the trained trees. It iterates over all trees, summing their contributions to compute the final predictions. Each tree’s prediction is computed using _predict_tree, a recursive method that traverses the tree based on the input data's feature values, eventually reaching a leaf node to retrieve its prediction value. For classification tasks, the predict method applies a threshold (default 0.5) to convert continuous predictions into binary outcomes. This thresholding ensures compatibility with metrics like accuracy, which require categorical outputs. By summing the contributions from all trees and scaling them with the learning rate, the model balances the complexity of each tree and the cumulative effect of multiple trees to make accurate predictions.
+**Gradient** = σ(ŷ) - y
+
+Where:
+- y: True label (0 or 1).
+- ŷ: Model's raw output (logits).
+- σ(ŷ): Sigmoid function, defined as:
+  σ(ŷ) = 1 / (1 + e^(-ŷ))
+
+This captures how much to adjust the prediction based on the difference between the predicted probability and the true label.
+
+The Hessian (second derivative of the loss function) measures the curvature of the loss function, adjusting the gradient's step size for stable updates. For LogLoss, it is computed as:
+
+**Hessian** = σ(ŷ) * (1 - σ(ŷ))
+
+| Metric             | Formula                        | Purpose                                       |
+|--------------------|--------------------------------|----------------------------------------------|
+| Gradient (grad)    | σ(ŷᵢ) - yᵢ                    | Direction and magnitude of error for update. |
+| Hessian (hess)     | σ(ŷᵢ) * (1 - σ(ŷᵢ))           | Adjusts step size for stability.             |
+
+
+These values guide the tree-building process, ensuring that splits prioritize reducing the loss function. The _build_tree method recursively constructs decision trees by finding optimal splits using the `_find_best_split` method, which evaluates the potential gain from splitting on each feature and threshold. Once the tree is built, it is added to the model, and the predictions are updated by applying the learning rate to scale the tree's contribution. This process iteratively improves the model's predictions while preventing overfitting through hyperparameters like `max_depth` and `min_child_weight`.
+
+The `_build_tree` method builds decision trees recursively up to the specified `max_depth`. Each node's split is determined by the `_find_best_split` method, which evaluates every feature and possible threshold in the dataset. It computes the gain, a metric that quantifies the improvement in the loss function from splitting the data. If the gain satisfies the `min_child_weight` constraint (a regularization term ensuring that splits are meaningful), the data is split into left and right child nodes, which are then processed recursively. If a node cannot be split further (e.g., due to depth limits or insufficient data), its value is calculated using _compute_leaf_value, which minimizes the loss for that node by considering the gradient and Hessian values. This recursive approach generates a binary tree that captures the relationships between features and the target variable.
+
+The predict method makes predictions using the trained trees. It iterates over all trees, summing their contributions to compute the final predictions. Each tree’s prediction is computed using `_predict_tree`, a recursive method that traverses the tree based on the input data's feature values, eventually reaching a leaf node to retrieve its prediction value. For classification tasks, the predict method applies a threshold (default 0.5) to convert continuous predictions into binary outcomes. This thresholding ensures compatibility with metrics like accuracy, which require categorical outputs. By summing the contributions from all trees and scaling them with the learning rate, the model balances the complexity of each tree and the cumulative effect of multiple trees to make accurate predictions.
 
 #### Hyperparameter Finetuning
+| Parameter         | Description                                                                                   | Default Value | 
+|-------------------|-----------------------------------------------------------------------------------------------|---------------|
+| `n_estimators`    | The number of trees (boosting rounds) to train.                                               | 100           | 
+| `learning_rate`   | Shrinks the contribution of each tree. Balances model complexity and training iterations.     | 0.1           | 
+| `max_depth`       | Maximum depth of a tree. Controls tree complexity and prevents overfitting.                   | 3             |
+| `lambda_`         | L2 regularization term. Penalizes large weights to prevent overfitting.                       | 1             | 
+| `min_child_weight`| Minimum sum of Hessian (second derivative) in a child node to allow splitting.                | 1             | 
+| `gamma`           | Minimum loss reduction required to split a node. Prevents overfitting by avoiding trivial splits. | 0             | 
+| `trees`           | Stores the trained decision trees. Used internally during prediction.                         | None          | 
 
+### Hyperparameter Tuning Results
 
-#### Comparison
+| **Parameter**       | **Values**               |
+|----------------------|--------------------------|
+| `max_depth`    | 3, 5, 7                  |
+| `min_child_weight`| 1, 3, 5                  |
+| `learning_rate`  | 0.01, 0.1, 0.2           |
+| `n_estimators`    | 50, 100, 200             |
+| `lambda_`        | 0, 0.1, 1, 10            |
+| `gamma`          | 0, 1, 5                  |
+
+### Final Result:
+Before hyperparameter tuning, the model's accuracy was **0.9338**, which improved to **0.9559** after tuning. Although the improvement seems slight, when compared to the accuracy of **0.9632** achieved by the XGBoost package's built-in implementation, it demonstrates a significant improvement for a custom implementation like ours.
+
+| **RESULT**      | `max_depth`             | `min_child_weight` |  `learning_rate` | `n_estimators`  | `lambda_` | `gamma`
+|----------------------|-----------------|-----------------------|-------------------------|-------------------|-------------------|------------------|
+| **Values**     |     7            | 3| 0.1| 200| 0| 0
+
+### Reasons for Accuracy Improvement
+
+The improvement in accuracy can be attributed to the following adjustments:
+
+1. **Deeper Trees (`max_depth=7`)**  
+   Increasing the tree depth allows the model to capture more complex patterns in the data. This can lead to better splits and more accurate predictions, especially for non-linear relationships.
+
+2. **Smaller `min_child_weight` (3)**  
+   Reducing the minimum child weight enabled the model to create splits even when fewer instances were present in a leaf. This helped the model better handle small but significant segments of the data.
+
+3. **Moderate Learning Rate (`learning_rate=0.1`)**  
+   A balanced learning rate allows the model to converge steadily, preventing overfitting while still making meaningful updates in each boost round.
+
+4. **Increased `n_estimators` (200)**  
+   Added more trees provided the model with additional opportunities to correct residual errors, enhancing overall performance.
+
+5. **No Regularization (`lambda_=0`, `gamma=0`)**  
+   Disabling regularization parameters indicates that the data was sufficiently clean and the model complexity was manageable without additional constraints.
+
+These tuned parameters collectively allowed the model to achieve a balance between complexity and generalization, leading to a noticeable performance improvement.
+
 
 ### SVM 
 #### Creation
@@ -83,8 +153,7 @@ In order to more easily tune the model to our data, we decided to implement our 
 
 To implement our model, the first main method needed was the fit method, where the model is trained on input data X and classifications y, similar to sci-kit learn’s SVC class. Our fit function first processes y to ensure labels are classifiers, either -1 or 1, making the data set valid for SVM classification. This method then uses a nested loop, going through each of the training samples for each of the specified number of iterations. For each sample, the model checks a condition based on the margin and updates weights and bias accordingly, and when satisfied, the weights are updated to minimize regularization. Otherwise, the updates also consider the hinge loss, adjusting the values to correctly classify the sample while respecting the margin constraint. Through this iterative approach, the model is able to converge toward an optimal hyperplane that separates the two classes effectively.  
 
-
-Finally, the predict method uses the learned weights and bias to classify new samples by taking the sign of the linear combination of the input features and the weights and bias. It computes the decision function for each sample in X and applies the sign function to assign class labels of either -1 or 1, which ensures that the model will classify data into either of these two categories, -1 and 1. The example in the __main__  block demonstrates the functionality with a toy dataset, where the SVM is trained and then used to predict labels for the same data. This code provides a clear and concise implementation of a linear SVM, showcasing essential concepts in machine learning such as hinge loss optimization, regularization, margin maximization, gradient descent, and the relation between them.
+Finally, the predict method uses the learned weights and bias to classify new samples by taking the sign of the linear combination of the input features and the weights and bias. It computes the decision function for each sample in X and applies the sign function to assign class labels of either -1 or 1, which ensures that the model will classify data into either of these two categories, -1 and 1. The example in the `__main__`  block demonstrates the functionality with a toy dataset, where the SVM is trained and then used to predict labels for the same data. This code provides a clear and concise implementation of a linear SVM, showcasing essential concepts in machine learning such as hinge loss optimization, regularization, margin maximization, gradient descent, and the relation between them.
 
 #### Tuning 
 

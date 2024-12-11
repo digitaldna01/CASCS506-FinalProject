@@ -1,7 +1,7 @@
 import numpy as np
 
 class XGBoostFromScratch:
-    def __init__(self, n_estimators=100, learning_rate=0.1, max_depth=6, lambda_=1, min_child_weight=1, gamma=0):
+    def __init__(self, n_estimators=100, learning_rate=0.1, max_depth=3, lambda_=1, min_child_weight=1, gamma=0):
         self.n_estimators = n_estimators  # Number of trees
         self.learning_rate = learning_rate  # Learning rate
         self.max_depth = max_depth  # Maximum depth of each tree
