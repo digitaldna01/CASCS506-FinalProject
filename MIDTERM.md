@@ -1,12 +1,11 @@
-# CAS CS506 Final Project
+# CAS CS506 Midterm Project
 Our final product is a web application through which users are able to get a prediction for the malignancy of their tumor, after inputting information from their fine needle aspirate (FNA). 
 
 ## Dataset 
 ### cBioPortal Dataset
 
 Initially, we were planning on using the cBioPortal Data Acute Myeloid Leukemia set, which included information from many trials, including allele, gene, and white blood cell counts. From this data, we wanted to create and train a model that would best classify the type of cancer based on this information. We started by preprocessing the data: removing unnecessary columns, engineering different features, and creating data visualizations. However, after looking at the data visualizations, we realized that an overwhelming majority of the data set’s cancer type was Acute Myeloid Leukemia, as you can see below. Therefore, we decided it would not be very interesting for us to create and train a model on this data set since simply inferring that any trial would be Acute Myeloid Leukemia would already result in a very high accuracy. 
-<!-- ![image info](./image/cancerTypes.png) -->
-<img src="./image/cancerTypes.png" alt="Resized Image" width="600">
+![image info](./image/cancerTypes.png)
 
 ### NEW Kaggle Dataset
 
@@ -51,71 +50,9 @@ The first model we created was XGBoost, using sklearn. We wanted to utilize XGBo
 The next model we creater was SVC, using SVM from sklearn. We knew that SVM was a powerful model from class, and that SVC would be the best variations as our task in this poroject is a classification task rather than regression. For this, we also utilized sklearn's accuracy score and confusion matrix functions to evalutae accuracy. For SVC, we ot an accuracy of around 0.97, indicating that SVC was even more accuracte than XGBoost, and also a worthwhile model to implment.
 ![image info](./image/svmMatrix.png)
 
-# Here is our midterm report presentation. Beyond this point is our progress after that
-
 ### Video Link: https://youtu.be/xuDXcFzg1y0 
 
-# 
-## Custom Models 
-### XGBoost 
-#### Creation 
+### Next Steps
 
-#### Tuning
-
-### SVM 
-#### Creation
-
-#### Tuning 
-
-## Web Application 
- 
-### Functionality 
-
-### Significance 
-
-
-## Duplicate our code
-Creating a virtual environment to install packages in Python app development instead of modifying the system-wide environment will allow you to seperate packages.
-
-#### How to start Python Application with Python Environment
-##### 1. Install `make install`
-
-If you system does not have `venv` library, install it using apt.
->   
-    sudo apt install python3-venv
-
-##### 2. Navigate to the project directory where you want to create a virtual environment and install the required packages for our python Application
-
-##### 3. Run the 'make install' command in your designated directory
->
-    make install
-
-##### 4. Run the 'make run' command in your designated directory to start the GUI application
->
-    make run
-
-##### 5. Activate the virtual environment:
-* For Mac
->   
-    source myenv/bin/activate
-  
-* For Window
-  * For Command Prompt:
-    >
-        myenv\Scripts\activate
-  * For PowerSehll:
-    >
-        .\myenv\Scripts\Activate
-
-After activation, you should see '(myenv)' at the beginning of your terminal prompt.
-
-##### 6. Deactivate the virtual enviornment, run:
->
-    deactivate
-
-### Requirements.txt
-The `requirements.txt` file should list all the Python libraries that these code files require, and the libraries will be installed by:
->
-    pip install -r requirements.txt
-
-In the Makefile the requirements installcation is included.
+this is from the midterm: 
+As detailed in our original proposal, we will now be implementing these models from scratch. In the case of any time constraints, we will focus on one moddel to implement from scratch, but we are eager to do both XGBoost and SVC. We have many motivations for creating these models from scratch. Firstly, implementing these models from scratch will provide us with a deeper understanding of the algorithms and code behind the models. Then, we will be able to compare the sklearn implementations to our own, to allow us to see what sorts of optimizations sklearn makes and how we can try to incorporate those into our own models. Furthermore, we might even be able to find optimizations in other aspects of the models that sklearn does not do. By creating our models from scratch, we can find opportunities to tailor the models to work better with our data specifically, such as having deeper hyperparameter tuning. Building on the customization, we can adjust the actual algorithms, likw how the decision trees in XGBoost are split, creating custom loss functions, and changing how our models handle imbalanced data. Implementing the models from scratch may also allow us to identify sources of overfitting or underfitting, so that we can try to adjust oour model to prevent this. 
